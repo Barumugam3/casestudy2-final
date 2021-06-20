@@ -1,0 +1,583 @@
+$font-size:14px;
+$font-family:Helvetica;
+audio{
+    outline: none;
+}
+textarea{
+    border: 1px solid lightgray ;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: $font-size;
+    font-family :$font-family;
+    background: inherit;
+    outline:none
+}
+.fullWidth{
+    width:100%;
+}
+.disabled{
+    pointer-events: none;    
+}
+a{
+    text-decoration: none;
+    color: #02244a;
+}
+.cursor{
+    cursor:pointer;
+}
+svg{
+    cursor:pointer; 
+}
+
+::placeholder{
+    font-size: $font-size;
+    font-family: $font-family;
+}
+.clearfix::after{
+    content: '';
+    clear: both;
+    display: table;
+}
+.clearBoth{
+    clear: both;
+}
+/** text colors **/
+.text-danger{
+    color:red
+}
+.colorGreen{
+    color:green;
+}
+.text-content{
+    color:#4e5e67;
+    font-family: $font-family;
+}
+.text-a{
+    color: #02244a;
+}
+.text-grey{
+	color:grey;
+}
+.text-blue {
+    color: #111177;
+}
+.text-lighter{
+   color: #866e6e;
+}
+
+/** Snack Bar **/
+ .MuiSnackbarContent-root{
+		border-radius: 25px !important;
+ }
+.MuiInputBase-root{
+    font-size: 14px !important;
+		font-family: $font-family !important;
+		border-radius: 20px !important;
+}
+.MuiButtonBase-root.Mui-disabled{
+    cursor: not-allowed !important;
+    opacity: 0.6;
+		pointer-events: auto !important;
+		border-radius: 20px !important;
+}
+/** Login **/
+.login_Wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    background: #f1f1f1;
+    font-family:inherit;
+    .login_Content {
+        width: 350px;
+        border-radius: 22px;
+        box-shadow:0 2px 11px 0 #d9d3d3;        
+        background:linear-gradient(to bottom, #6265786e 0%, #fafbff 100%);
+        height: 455px;
+    .login_Form{            
+        align-items: center;
+        height: 455px;
+        padding-left: 51px;
+        padding-right: 54px;
+        padding-top: 20px;
+        display: flex;
+        flex-direction: column;
+        vertical-align: middle;
+        justify-content: center;
+        font-size:14px;
+		font-family: $font-family;
+		
+    }
+    .LeftBackground{
+        background-image: url(../images/login.jpg);
+        background-color: #c6dcff;
+        background-repeat: no-repeat;
+        border-radius: 9px 0 0 9px;
+        background-size: cover;
+        height: inherit;
+    }
+    .forgot{ 
+        margin-top: 3px;
+        font-size: small;
+        float: right;
+        font-family: inherit;
+        color: #9c8e8e;
+        font-weight: 600;
+    }
+    } 
+}
+.password {
+    min-height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    background: #9ea9b5;
+    .login_Content {
+        width: 30%;
+        border-radius: 9px;
+        box-shadow:0 2px 11px 0 #d9d3d3;        
+        background-color: #fff;
+        height: 350px;
+    .login_Form{            
+        align-items: center;
+        padding-left: 51px;
+        padding-right: 54px;
+        padding-top: 20px;
+		font-size:14px;
+		font-family: $font-family;
+		border-radius:9px;
+		
+    }   
+    .forgot{ 
+			margin-top: 3px;
+			font-size: small;
+			font-family: $font-family;;
+			color: #9c8e8e;
+			font-weight: 600;
+			display: inline-block;
+    	}
+    } 
+}
+.svgIcon{
+    vertical-align: middle;
+    margin-right: 5px;
+}
+.userName{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 114px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.textAlign{
+	width: 107px;
+	display: inline-block;
+	text-align: center;	
+	vertical-align: middle;
+}
+
+/** header **/
+.header{
+    display: table;
+    height: 45px;
+    color:white;
+    //background: #ffffff;
+    background: rgb(215 216 223 / .6);
+    align-items: center;
+    vertical-align: middle;
+    font-weight: bold;
+    font-family: $font-family;
+    font-size: $font-size;
+    color: #0a1e2d;
+    text-transform: uppercase;
+    box-shadow: 0 0 2px 0 #d1cfcf;
+    margin-bottom: 0px;    
+    width: calc(100% - 14%);
+    z-index: 9;
+    position: relative;
+    margin-left:14%;
+    top: 0;   
+    .rowFirst{
+		text-align: end;
+        padding: 7px;
+        border-right: 1px solid #f4e1e1;
+        display: table-cell;
+    }   
+    .rowEnd{
+        display: table-cell;
+        width: 50px;
+        text-align: right;
+        
+        
+    }
+    
+}
+/** side_nav **/
+.side_nav{
+    min-height: 100%;
+    width:14%;;
+    padding: 0;
+    z-index: 9;
+    position: fixed;
+    top:0;
+    overflow-y: auto;
+    height: calc(100% - 45px);
+    font-family:$font-family;
+    box-shadow: 0px 0 6px grey;
+}
+._small{
+    width: 5% !important;
+    .rowInitial label{
+		font-size: 25px !important;
+		background: #5a6488 !important;
+		padding: 10px;
+		border-radius: 15%;
+    }
+    .imgspanWidth{
+				width: 45px !important;
+				text-align: center !important;
+    }
+}
+.smallLeft{
+    margin-left:5% !important;
+    width:calc(100% - 5%) !important;
+}
+.sideDefination {
+    a{
+        font-weight: 400;   
+        text-decoration: none; 
+    }
+    .rowInitial{
+        color:white;
+        font-size: 15px;
+        background: #02244a;
+        vertical-align: middle;
+        height: 49px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }	
+    li{
+		display: block;
+		cursor: pointer;
+		color: white;
+		font-size: 13px;
+		// height: 30px;
+		text-align: left;
+     //   padding: 8px;  
+        padding: 8px 3px 8px 3px;
+        font-family: $font-family;  
+        margin:0px;
+        img{
+            padding: 6px;
+        }     
+        
+    i{
+        font-size: 25px !important;
+        text-align: center;
+        width: 100% !important;	 
+    }  
+   
+   }
+   .imgspanWidth{
+	width: 35px;
+    height: 40px;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: left;
+    }
+}  
+.sideDefination li:hover{
+	text-shadow: rgba(0, 0, 0, 0.25) 0 -1px 0;
+   // background: #304e70;
+    background: rgb(217 209 209 / 50%);
+   // border-radius: 5px;
+    margin:0px;
+}
+.sideDefination li.active{
+	text-shadow: rgba(0, 0, 0, 0.25) 0 -1px 0;
+   // background: #304e70;
+    background: rgb(217 209 209 / 50%);
+   // margin:0px;
+   // border-radius: 5px;
+    animation: MoveInRight 1s ease-out;
+
+}
+/** FORM INPUT **/
+.mainContentInput{
+input{
+    font-size:12px;
+    font-family: inherit;
+}
+fieldset {
+    border: 1px solid #d3d3d3;
+ }
+ fieldset:hover{
+     color:#233141
+ }   
+ 
+}
+/** BUTTONS**/
+.mainContentBtn{
+    color: #fff !important;
+    background-color: #02244a !important;
+		font-family: $font-family !important;
+		border-radius: 20px !important;
+}
+.mainContentGreen{
+    color: #fff !important;
+    background-color: #64a914 !important;
+		font-family: $font-family  !important;
+		border-radius: 20px !important;
+}
+.closeContentBtn{
+    color: #fff !important;
+    background-color:red !important;
+		font-family: $font-family  !important;
+		border-radius: 20px !important;
+}
+.MuiButton-contained{
+		font-family: $font-family  !important;
+		border-radius: 20px !important;
+}
+.MuiOutlinedInput-root.Mui-focused{
+    fieldset{
+    border-color:#1d589a !important;
+		border-width:1px !important;
+		
+    }
+}
+.form_outlook{
+    color: #727272;
+    font-size: 14px !important;
+    p {
+        margin-bottom: 10px !important;
+        margin-top: 10px !important;
+    }
+
+    .formInput{
+        display: block;
+    }
+    .layoutTitle{
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ebe0e0;
+    padding: 0 0 10px 0;
+    font-size: 18px;
+    margin-top: 10px;
+    }
+}
+.ContentSmall{
+    margin-left: 5% !important;
+}
+.react-dropdown-select{
+	 border-radius: 20px !important;
+	.react-dropdown-select-dropdown{
+	  border-radius: 20px !important;
+	}
+}
+.MuiOutlinedInput-input{
+	font-size: 14px !important;
+	border-radius: 20px !important;
+}
+.Content{
+    min-height: calc(100vh - 51px);
+    margin-left:14%;;
+    background: rgb(215 216 223 / .6);
+    font-family:$font-family;
+	font-size: $font-size;
+    padding:10px 10px 10px 10px;
+    .ptag{
+        font-weight: 600;
+        font-size: 16px;
+        color: #081b26;
+        font-family: $font-family;
+        vertical-align: middle;
+        align-items: center;
+        display: flex;
+        height: 35px;
+    }
+    .displayFlex{
+        display: flex;
+        justify-content: space-between;
+        width: 100%;        
+    }
+    .dataTables_wrapper{
+        background-color: #fff;
+        box-shadow: 0 0.46875rem 2.1875rem rgba(4,9,20,.03), 0 0.9375rem 1.40625rem rgba(4,9,20,.03), 0 0.25rem 0.53125rem rgba(4,9,20,.05), 0 0.125rem 0.1875rem rgba(4,9,20,.03);
+        border-radius:5px;
+        font-family: $font-family;
+    }
+    .MuiTableCell-head{
+        text-transform: uppercase;
+        font-weight: 600;
+        font-size: 14px !important;
+        font-family: $font-family !important;
+    }
+    .MuiTableCell-root{
+        font-size: 14px !important;
+        font-family: $font-family !important;
+        word-break: break-word;
+        max-width: 400px;
+        padding: 8px !important;
+        color:#4e5e67;
+    }
+    .MuiGrid-root{
+        font-family: $font-family;
+        font-size: $font-size;
+    }
+}
+.MuiDialogTitle-root{
+    border-bottom: 1px solid #f2eeee;
+    background-color: #eaeef4;
+    .MuiTypography-root{
+        font-size: 16px;
+        font-family:$font-family;
+        font-weight: 600;
+    }    
+}
+.MuiDialogContent-root{
+    font-family: $font-family;
+    font-size: $font-size;
+}
+.MuiDialogActions-root {
+    justify-content: center !important;
+}
+.headerSection{
+	height: 51px;
+	padding-top: 12px;
+	padding-left: 10px;
+	padding-right: 10px;
+	color:#4e5e67;
+	.MuiOutlinedInput-inputMarginDense{
+		padding-top: 7.5px;
+    padding-bottom: 7.5px;	
+	}
+	.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: rgb(161 152 152);
+	}
+	.MuiInputBase-input:focus {
+    outline: none;
+	}
+}
+.sendText{
+	border-top: 1px solid #ededed;
+	background: white;
+	padding: 10px 5px 10px 10px;	
+	border-radius: 0px 0px 7px 7px;
+	.smiley{
+		color:#f6c125;
+	}
+	.HJDRz{
+		width: 100%;
+		margin-top: 0;
+	}
+
+}
+.flexiguserHist{
+    display: table-cell;
+    align-items: center;
+}
+.heightRestriction{
+    height: 212px;
+    overflow: hidden;
+    overflow-y: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    border-top: 1px solid #ededed;
+    color:#484242;
+    .text-Content{
+        font-size: 10px;
+        color: grey;
+    }
+}
+.heightCard{
+    height: 70vh;
+    padding-left: 10px;
+		padding-right: 10px;
+		padding-bottom: 10px;
+		overflow-y: auto;
+		border-top: 1px solid #ededed;
+        background: #ededed;
+    .MuiChip-root{
+        border-radius:7px;
+        margin-bottom: 6px;
+        height: auto !important;
+        .MuiChip-label{
+            white-space: initial !important;
+            text-align: justify;
+        }
+    }
+    .read{
+        color:#50de83
+    }
+    .unread{
+        color:white;
+		}
+		.MuiChip-deleteIcon{
+			width: 16px;
+		}
+   
+    .text-Content{
+      font-size: 10px;
+    	color: grey;
+		}
+		.dateTime{
+            margin-top: 5px;
+			background: #a9d7f2;
+			.MuiChip-label{
+				font-size: 9px;
+			}
+
+		}
+}
+.chipData{
+    padding: 3px 8px 3px 8px;
+    border-radius: 3px;
+    max-width: 77%;
+    font-family: Helvetica;
+    text-align: left;
+    width: max-content;
+    word-break: break-word;
+    white-space: pre-wrap;
+    margin-top:3px;
+    margin-bottom: 3px;
+}
+.rightData{
+    background: #d3f2d3;
+}
+.leftData{
+    background: #d2dfe3;
+}
+.orangeData{
+    background-color: #e5551e !important;
+}
+.borderData{
+    cursor:pointer;
+    border-top: 1px solid #dbdbdb;
+    border-left: 1px solid #dbdbdb;
+    border-right: 1px solid #dbdbdb;
+}
+.borderData:hover{
+    background-color: #dbdbdb;
+}
+.borderData:last-child {
+    border-bottom: 1px solid #dbdbdb;
+}
+
+@keyframes MoveInRight {
+	0% {
+	  opacity: 0;
+	  transform: translateX(100px);
+	}
+	60% {
+		transform: translateX(10px);
+	}
+	100% {
+	  opacity: 1;
+	  transform: translateX(0);
+	}
+  }
