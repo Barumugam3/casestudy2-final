@@ -54,14 +54,14 @@ API Documentation:
 | GET | /api/v1.0/market/company/getall | http://localhost:8092/company-service/api/v1.0/market/company/getall |
 | DELETE | /api/v1.0/market/company/delete/```companycode``` | http://localhost:8092/company-service/api/v1.0/market/company/delete/1213|
 | POST | /api/v1.0/market/stock/add/```companycode```| http://localhost:8092/stock-command-service/api/v1.0/market/stock/add/1213|
-| GET | /api/v/1.0/market/stock/get/```companycode```/```startdate```/```enddate```|http://localhost:8092/stock-query-service/api/v1.0/market/stock/get/1213/2021-05-31/2021-05-31|
+| GET | /api/v/1.0/market/stock/get/```companycode```/```startdate```/```enddate```|http://localhost:8092/stock-query-service/api/v1.0/market/stock/get/1213/2021-06-20/2021-06-20|
 
-	- Company API Swagger UI: http://localhost:8089/swagger-ui/
+    - Company API Swagger UI: http://localhost:8089/swagger-ui/
     - StockPrice API Swagger UI: http://localhost:8090/swagger-ui/
   > Complete API can be accessed from Zuul Gateway Endpoint: http://localhost:8092/swagger-ui/
 
 EStock UI Application:
-  > Clone Estock UI application
-  > install npm install command
-  > run npm start command
-  > URL => http://localhost:3000/estock-ui#/ 
+  - Clone Estock UI application
+  - install npm install command
+  - run npm start command
+  - URL => http://localhost:3000/estock-ui#/ 
