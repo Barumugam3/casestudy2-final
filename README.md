@@ -59,3 +59,9 @@ API Documentation:
 	- Company API Swagger UI: http://localhost:8089/swagger-ui/
     - StockPrice API Swagger UI: http://localhost:8090/swagger-ui/
   > Complete API can be accessed from Zuul Gateway Endpoint: http://localhost:8092/swagger-ui/
+
+EStock UI Application:
+  > Clone Estock UI application
+  > install npm install command
+  > run npm start command
+  > URL => http://localhost:3000/estock-ui#/ 
