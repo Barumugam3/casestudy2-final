@@ -1,0 +1,321 @@
+version: '3.9'
+
+# Services
+services:
+  eureka-service:
+    build:
+      context: ./DiscoveryMicroService
+      dockerfile: Dockerfile
+    image: akhilgandhilive/emarket:eureka-service
+    container_name: eureka-service
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+    ports:
+      - 8761:8761
+    networks:
+      - backend
+
+  edge-service:
+    build:
+      context: ./EdgeMicroService
+      dockerfile: Dockerfile
+    image: balaji/emarket:edge-service
+    container_name: edge-service
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+    ports:
+      - 8092:8092
+    depends_on:
+      - eureka-service
+      - auth-service
+    environment:
+      EUREKA_SERVER: http://eureka-service:8761/eureka
+    networks:
+      - backend
+
+  auth-service:
+    build:
+      context: ./AuthMicroService
+      dockerfile: Dockerfile
+    image: balaji/emarket:auth-service
+    container_name: auth-service
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+    ports:
+      - 8093:8093
+    depends_on:
+      - eureka-service
+    environment:
+      EUREKA_SERVER: http://eureka-service:8761/eureka
+    networks:
+      - backend
+
+  zookeeper-service:
+    image: zookeeper:latest
+    hostname: zookeeper-host
+    container_name: zookeeper-service
+    ports:
+      - 2181
+    networks:
+      - backend
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: server.1=0.0.0.0:2888:3888;2181
+    volumes:
+      - logs-zk-data:/data
+      - logs-zk-datalog:/datalog
+
+  kafka-service:
+    image: confluentinc/cp-kafka:latest
+    hostname: kafka-host
+    container_name: kafka-service
+    ports:
+      - 29092
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-host:9092,PLAINTEXT_HOST://kafka-service:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_CREATE_TOPICS: add-stock:2:1,delete-stock:2:1,stock-query-service-logs:2:1,stock-command-service-logs:2:1,company-service-logs:2:1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper-service:2181
+      KAFKA_BROKER_ID: 1
+      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    volumes:
+      - logs-kafka:/var/lib/kafka/data
+    depends_on:
+      - zookeeper-service
+    networks:
+      - backend
+    healthcheck:
+      test: [ "CMD", "nc", "-vz", "localhost", "29092" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  company-service:
+    build:
+      context: ./CompanyMicroService
+      dockerfile: Dockerfile
+    image: balaji/emarket:company-service
+    container_name: company-service
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+    ports:
+      - 8089:8089
+    restart: always
+    depends_on:
+      - eureka-service
+      - edge-service
+      - company-mysql-db
+      - kafka-service
+    environment:
+      LOGGING_FILE_NAME: /logs-company/company-service.log
+      EUREKA_SERVER: http://eureka-service:8761/eureka
+      STOCK_QUERY_SERVICE: http://stock-query-service:8091
+      STOCK_COMMAND_SERVICE: http://stock-command-service:8090
+      COMPANY_DATASOURCE_URL: jdbc:mysql://company-mysql-db:3306/companyDb?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+      COMPANY_DATASOURCE_USERNAME: appUser
+      COMPANY_DATASOURCE_PASSWORD: appPass
+    networks:
+      - backend
+
+  stock-command-service:
+    build:
+      context: ./StockCommandService
+      dockerfile: Dockerfile
+    image: balaji/emarket:stock-command-service
+    container_name: stock-command-service
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+    ports:
+      - 8090:8090
+    restart: always
+    depends_on:
+      - eureka-service
+      - edge-service
+      - stock-command-mongo-db
+      - kafka-service
+    environment:
+      LOGGING_FILE_NAME: /logs-stock/stock-command-service.log
+      EUREKA_SERVER: http://eureka-service:8761/eureka
+      COMPANY_SERVICE: http://company-service:8089
+      STOCK_DB: stock
+      STOCK_USER: appUser
+      STOCK_PASS: appPass
+      STOCK_PORT: 27020
+      STOCK_HOST: stock-command-mongo-db
+      KAFKA_SERVER: kafka-service:29092
+      CONSUMER_GROUP: stock-consumer-group
+    networks:
+      - backend
+
+  stock-query-service:
+    build:
+      context: ./StockQueryService
+      dockerfile: Dockerfile
+    image: balaji/emarket:stock-query-service
+    container_name: stock-query-service
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+    ports:
+      - 8091:8091
+    restart: always
+    depends_on:
+      - eureka-service
+      - edge-service
+      - stock-query-mongo-db
+      - kafka-service
+    environment:
+      LOGGING_FILE_NAME: /logs-stock/stock-query-service.log
+      EUREKA_SERVER: http://eureka-service:8761/eureka
+      STOCK_DB: stock
+      STOCK_USER: appUser
+      STOCK_PASS: appPass
+      STOCK_PORT: 27021
+      STOCK_HOST: stock-query-mongo-db
+      KAFKA_SERVER: kafka-service:29092
+      CONSUMER_GROUP: stock-consumer-group
+    networks:
+      - backend
+
+  company-mysql-db:
+    image: mysql:latest
+    container_name: company-mysql-db
+    ports:
+      - 3306
+    environment:
+      MYSQL_DATABASE: companyDb
+      MYSQL_USER: appUser
+      MYSQL_PASSWORD: appPass
+      MYSQL_ROOT_PASSWORD: rootPass
+    networks:
+      - backend
+
+  stock-command-mongo-db:
+    build:
+      context: ./MicroServiceManagement/mongoDb
+      dockerfile: Dockerfile-command
+    image: balaji/emarket:stock-command-mongo-db
+    container_name: stock-command-mongo-db
+    ports:
+      - 27020
+    environment:
+      MONGO_INITDB_DATABASE: stock
+      MONGO_INITDB_ROOT_USERNAME: adminUser
+      MONGO_INITDB_ROOT_PASSWORD: adminUser
+    command: ["-f","/etc/mongod.conf"]
+    networks:
+      - backend
+
+  stock-query-mongo-db:
+    build:
+      context: ./MicroServiceManagement/mongoDb
+      dockerfile: Dockerfile-query
+    image: balaji/emarket:stock-query-mongo-db
+    container_name: stock-query-mongo-db
+    ports:
+      - 27021
+    environment:
+      MONGO_INITDB_DATABASE: stock
+      MONGO_INITDB_ROOT_USERNAME: adminUser
+      MONGO_INITDB_ROOT_PASSWORD: adminPass
+    command: ["-f","/etc/mongod.conf"]
+    networks:
+      - backend
+
+  # Management
+  grafana-service:
+    build:
+      context: ./MicroServiceManagement/grafana
+      dockerfile: Dockerfile
+    image: balaji/emarket:grafana-service
+    container_name: grafana-service
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+    ports:
+      - 3000:3000
+    networks:
+      - backend
+
+  prometheus-service:
+    build:
+      context: ./MicroServiceManagement/prometheus
+      dockerfile: Dockerfile
+    image: balaji/emarket:prometheus-service
+    container_name: prometheus-service
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+    ports:
+      - 9090:9090
+    networks:
+      - backend
+
+  # ELK Stack
+  elasticsearch-service:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.0
+    container_name: elasticsearch-service
+    ports: 
+      - 9200:9200
+      - 9300:9300
+    environment: 
+      discovery.type: single-node
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks: 
+      - backend
+    depends_on: 
+      - kafka-service
+  
+  kibana-service:
+    build:
+      context: ./ELKStack/kibana
+      dockerfile: Dockerfile
+    image: balaji/emarket:kibana-service
+    container_name: kibana-service
+    ports: 
+      - 5601:5601
+    networks: 
+      - backend
+    depends_on: 
+      - elasticsearch-service
+    
+  logstash-service:
+    build:
+      context: ./ELKStack/logstash
+    image: balaji/emarket:logstash-service
+    container_name: logstash-service
+    ports: 
+      - 5001:5001/tcp
+      - 5000:5000/udp
+      - 9600:9600
+    environment: 
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks: 
+      - backend
+    depends_on: 
+      - elasticsearch-service
+
+# Volumes
+volumes:
+  logs-zk-data:
+  logs-zk-datalog:
+  logs-kafka:
+
+# Network
+networks:
+  backend:
