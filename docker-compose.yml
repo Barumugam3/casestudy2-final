@@ -6,7 +6,7 @@ services:
     build:
       context: ./DiscoveryMicroService
       dockerfile: Dockerfile
-    image: akhilgandhilive/emarket:eureka-service
+    image: balaji/emarket:eureka-service
     container_name: eureka-service
     deploy:
       resources:
